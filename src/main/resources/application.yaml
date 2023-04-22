@@ -1,23 +1,13 @@
 server:
   port: 2222
 
-#spring:
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://192.168.100.103:5432/postgres
-#    username: postgres
-#    password: postgres
-#    maximum-pool-size: 4
-
-
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@127.0.0.1:1521:XE
-    username: BOOTEX
-    password: oracle
+    url: jdbc:oracle:thin:@127.0.0.1:1521:ORCL
+    username: test
+    password: 1234
     maximum-pool-size: 4
-    
   jpa:
     open-in-view: true
     hibernate:
@@ -28,4 +18,7 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
-    
+  thymeleaf:
+    prefix : classpath:templates/
+    suffix : .html
+    cache : false
