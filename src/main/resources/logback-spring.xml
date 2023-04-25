@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<configuration debug="true"> 
+	
+ 	<property name="LOG_PATH" 		 value="D:/sts3_workspace/LOG" />
+ 	<!-- <property name="LOG_PATH" 		 value="/LOG2" /> -->
+	<property name="LOG_MAX_SIZE" 	 value="1GB" />
+	<property name="LOG_MAX_HISTORY" value="2" />
+	<property name="LOG_FILE_NAME"   value="DAYILY_LOG"/> 
+    
+    <property name="LOG_PATTERN_HIGHLIGHTED"
+              value="%highlight(%-5level) %d{yy-MM-dd HH:mm:ss} [%logger{0}:%line] - %msg%n"/> 
+    <property name="LOG_PATTERN"
+              value="%-5level %d{yy-MM-dd HH:mm:ss} [%logger{0}:%line] - %msg%n"/> 
+
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
+		 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN_HIGHLIGHTED}</pattern>
+        </encoder>
+	</appender> 
+	          
+	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+		<file>${LOG_PATH}/WAS.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder> 
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/was/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log.zip</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> 
+                <maxFileSize>${LOG_MAX_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy> 
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+	</appender> 
+	
+	<!-- SQL Log Appender -->
+	<appender name="SQLLOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/SQL.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder> 
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/sql/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log.zip</fileNamePattern>
+			  <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> 
+                <maxFileSize>${LOG_MAX_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy> 
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+		</rollingPolicy>
+	</appender>
+	<!-- End log appender -->	
+	
+    <logger name="java.sql" 	   	   level="OFF"   additivity="false"/> 
+	<logger name="jdbc.connection" 	   level="OFF"   additivity="false"/> 
+    <logger name="jdbc.resultset"  	   level="OFF"   additivity="false"/> 
+	<logger name="jdbc.audit" 	   	   level="OFF"   additivity="false"/> 
+	<logger name="jdbc.sqlonly"    	   level="OFF"   additivity="false"/> 
+	<logger name="jdbc.resultsettable" level="OFF"   additivity="false"/>
+ 
+	<logger name="jdbc.sqltiming" 	   level="INFO" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="SQLLOG" /> 
+    </logger> 
+	
+	<root level="INFO"> 
+		<appender-ref ref="STDOUT"/> 
+		<appender-ref ref="ROLLING"/> 
+	</root> 
+	
+</configuration>
