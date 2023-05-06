@@ -109,7 +109,7 @@
 			<div class="card-header">
 				<h3>Sign In</h3>
 				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab" ><img th:src="@{/assets/kakaotalk.ico}" style="width: 50px; height: 50px;"/></i></span>
+					<span><i class="fab" ><img th:src="@{/assets/kakaotalk.ico}" style="width: 50px; height: 50px;" onclick="kakaoLogin()"/></i></span>
 					<span><i class="fab" ><img th:src="@{/assets/naver.ico}" style="width: 50px; height: 50px;"/></i></span>
 					<span><i class="fab" ><img th:src="@{/assets/google.ico}" style="width: 50px; height: 50px;"/></i></span>
 				</div>
@@ -150,23 +150,37 @@
 </div>
 </body>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <script>
-function fnLogin(){
-	$.ajax({
-		url : "/login", // 어디로 갈거니? // 갈 때 데이터
-		type : "POST", // 타입은 뭘 쓸거니?
-		datatype : "json",
-		data: {
-             "memberId": $("#memberId").val(),
-             "memberPw": $("#memberPw").val(),
-         },
-		success : function(data) { // 갔다온 다음 결과값
-			console.log("결과 :" ,data);
-		},
-		error : function() {
-			alert('error');			
-		}
-	});
+Kakao.init('0ae6af55b3a71601756ae5f587d29697');
+
+function kakaoLogin() {
+    Kakao.Auth.login({
+	    success: function (response) {
+	        Kakao.API.request({
+	        	url: '/v2/user/me',
+	        	success: function (response) {
+		      		if(response.id){
+		      			socialLogin('kakao', response);
+		      	    }else{
+		      	    	alert("카카오 인증 실패");
+		      	    }
+	        	},
+	          fail: function (error) {
+	              console.log(error)
+	          },
+	        })
+	    },
+	    fail: function (error) {
+	        console.log(error)
+	    },
+	})
+}
+
+function socialLogin(oauth, data){
+	console.log(oauth, data);
+	
 }
 </script>
 </html>

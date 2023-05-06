@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>로그인 / 회원가입 폼 템플릿</title>
+        <link th:href="@{/css/login.css}" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="form-wrap">
+                <div class="button-wrap">
+                    <div id="btn"></div>
+                    <button type="button" class="togglebtn" onclick="login()">로그인</button>
+                    <button type="button" class="togglebtn" onclick="register()">회원가입</button>
+                </div>
+                <div class="social-icons">
+                    <img th:src="@{/assets/kakaotalk.ico}" style="width: 50px; height: 50px;" onclick="kakaoLogin()"/>
+                    <img th:src="@{/assets/naver.ico}" style="width: 50px; height: 50px;"/>
+                    <img th:src="@{/assets/google.ico}" style="width: 50px; height: 50px;" onclick="googleLogin()"/> 
+                </div>
+                
+               
+                
+                <form id="login" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="이메일을 입력하세요" required>
+                    <input type="password" class="input-field" placeholder="패스워드를 입력하세요" required>
+                    <input type="checkbox" class="checkbox"><span>아이디 기억하기</span>
+                    <button class="submit">로그인</button>
+                </form>
+                <form id="register" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="아이디를 입력하세요" required>
+                    <input type="email" class="input-field" placeholder="이메일을 입력하세요" required>
+                    <input type="password" class="input-field" placeholder="패스워드를 입력하세요" required>
+                    <input type="checkbox" class="checkbox"><span>약관에 동의 합니다.</span>
+                    <button class="submit">회원가입</button>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            var x = document.getElementById("login");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+            
+            
+            function login(){
+                x.style.left = "50px";
+                y.style.left = "450px";
+                z.style.left = "0";
+            }
+
+            function register(){
+                x.style.left = "-400px";
+                y.style.left = "50px";
+                z.style.left = "110px";
+            }
+         
+			function kakaoLogin() {
+			    let xhr = new XMLHttpRequest();
+		        xhr.open('GET', '/login/getKakaoAuthUrl', true);
+		        xhr.send();
+		        xhr.onload = () => {
+		            //통신 성공
+		            if (xhr.status == 200) {
+		                //console.log(xhr.response);
+		            	location.href=xhr.response;
+		            } else {
+		                //통신 실패
+		                console.log("통신 실패");
+		            }
+		        }
+			}
+			
+			function googleLogin() {
+			    let xhr = new XMLHttpRequest();
+		        xhr.open('GET', '/login/googleOauth', true);
+		        xhr.send();
+		        xhr.onload = () => {
+		            //통신 성공
+		            if (xhr.status == 200) {
+		                location.href=xhr.response;
+		            } else {
+		                //통신 실패
+		                console.log("통신 실패");
+		            }
+		        }
+			}
+			 
+		</script>
+		
+    </body>
+</html>

@@ -21,15 +21,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     // 요청을 컨트롤러에 보내기 전 작업
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        
-        log.info("LoginInterceptor - {}", "호출완료");
-        
         HttpSession session = request.getSession();
         String memberId = (String)session.getAttribute("memberId");
         
         if(memberId != null) {
+        	log.info("LoginInterceptor - 반갑습니다 {} 님", memberId);
             return true;
         } else {
+        	log.info("LoginInterceptor - 로그인 먼저 하세요");
         	response.sendRedirect("/login"); 
             return false;
         }
