@@ -13,9 +13,9 @@
                     <button type="button" class="togglebtn" onclick="register()">회원가입</button>
                 </div>
                 <div class="social-icons">
-                    <img th:src="@{/assets/kakaotalk.ico}" style="width: 50px; height: 50px;" onclick="kakaoLogin()"/>
-                    <img th:src="@{/assets/naver.ico}" style="width: 50px; height: 50px;"/>
-                    <img th:src="@{/assets/google.ico}" style="width: 50px; height: 50px;" onclick="googleLogin()"/> 
+                    <img th:src="@{/assets/kakaotalk.ico}" style="width: 50px; height: 50px;" onclick="oauthLogin('kakao')"/>
+                    <img th:src="@{/assets/naver.ico}"  style="width: 50px; height: 50px;" onclick="alert('준비중입니다');"/>
+                    <img th:src="@{/assets/google.ico}" style="width: 50px; height: 50px;" onclick="oauthLogin('google')"/> 
                 </div>
                 
                
@@ -54,14 +54,13 @@
                 z.style.left = "110px";
             }
          
-			function kakaoLogin() {
+			function oauthLogin(social) {
 			    let xhr = new XMLHttpRequest();
-		        xhr.open('GET', '/login/getKakaoAuthUrl', true);
+		        xhr.open('GET', '/login/'+social+'Oauth', true);
 		        xhr.send();
 		        xhr.onload = () => {
 		            //통신 성공
 		            if (xhr.status == 200) {
-		                //console.log(xhr.response);
 		            	location.href=xhr.response;
 		            } else {
 		                //통신 실패
@@ -70,20 +69,7 @@
 		        }
 			}
 			
-			function googleLogin() {
-			    let xhr = new XMLHttpRequest();
-		        xhr.open('GET', '/login/googleOauth', true);
-		        xhr.send();
-		        xhr.onload = () => {
-		            //통신 성공
-		            if (xhr.status == 200) {
-		                location.href=xhr.response;
-		            } else {
-		                //통신 실패
-		                console.log("통신 실패");
-		            }
-		        }
-			}
+		 
 			 
 		</script>
 		

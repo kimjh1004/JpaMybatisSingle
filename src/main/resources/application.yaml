@@ -1,6 +1,20 @@
 server:
   port: 2222
 
+oauth2:
+  google:
+    client-id: 1052686149956-b24734oudhor0pv84l1gi15jehac95kq.apps.googleusercontent.com
+    client-secret: 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
+    redirect-uri: http://localhost:2222/login/google
+    token-uri: https://oauth2.googleapis.com/token
+    resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
+  kakao:
+    client-id: 2caeef4e8238b4dafe827ac7d7b26204
+    client-secret: mF0WiDkfCSJYoILMxDVSEMfHlZ8B4ean
+    redirect-uri: http://localhost:2222/login/kakao
+    token-uri: https://kauth.kakao.com/oauth/token
+    resource-uri: https://kapi.kakao.com/v2/user/me
+    
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
